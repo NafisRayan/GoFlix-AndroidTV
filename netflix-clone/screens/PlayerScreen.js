@@ -76,8 +76,8 @@ export default function PlayerScreen({ navigation, route }) {
         <Video
           ref={videoRef}
           style={{
-            width: '100%',
-            height: isFullscreen ? '100%' : '56.25%', // 16:9 aspect ratio
+            width: SCREEN_WIDTH,
+            height: isFullscreen ? SCREEN_HEIGHT : SCREEN_WIDTH * 0.5625, // 16:9 aspect ratio
             transform: [{ rotate: isFullscreen ? '90deg' : '0deg' }]
           }}
           source={{ uri: route.params?.videoUrl || 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' }}
@@ -89,9 +89,22 @@ export default function PlayerScreen({ navigation, route }) {
         />
 
         {showControls && (
-          <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
+          <View style={{ 
+            position: 'absolute', 
+            top: 0, 
+            left: 0, 
+            right: 0, 
+            bottom: 0,
+            justifyContent: 'space-between' 
+          }}>
             {/* Top controls */}
-            <SafeAreaView style={{ flexDirection: 'row', alignItems: 'center', padding: 16, backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+            <SafeAreaView style={{ 
+              flexDirection: 'row', 
+              alignItems: 'center', 
+              padding: moderateScale(16), 
+              paddingHorizontal: moderateScale(20),
+              backgroundColor: 'rgba(0, 0, 0, 0.5)' 
+            }}>
               <TouchableOpacity 
                 onPress={() => navigation.goBack()}
                 style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', borderRadius: 50, padding: 8 }}
@@ -107,10 +120,14 @@ export default function PlayerScreen({ navigation, route }) {
             </SafeAreaView>
 
             {/* Center play/pause button */}
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
               <TouchableOpacity 
                 onPress={togglePlayPause}
-                style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', borderRadius: 50, padding: 16 }}
+                style={{ 
+                  backgroundColor: 'rgba(0, 0, 0, 0.8)', 
+                  borderRadius: moderateScale(50), 
+                  padding: moderateScale(16) 
+                }}
               >
                 <Ionicons 
                   name={status.isPlaying ? "pause" : "play"} 
@@ -121,11 +138,15 @@ export default function PlayerScreen({ navigation, route }) {
             </View>
 
             {/* Bottom controls */}
-            <SafeAreaView style={{ padding: 16, backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+            <SafeAreaView style={{ 
+              padding: moderateScale(16), 
+              paddingHorizontal: moderateScale(20),
+              backgroundColor: 'rgba(0, 0, 0, 0.5)' 
+            }}>
               {/* Progress bar */}
-              <View style={{ marginBottom: 16 }}>
+              <View style={{ marginBottom: moderateScale(16) }}>
                 <Slider
-                  style={{ width: '100%', height: 40 }}
+                  style={{ width: '100%', height: moderateScale(40) }}
                   minimumValue={0}
                   maximumValue={duration}
                   value={position}
@@ -134,15 +155,28 @@ export default function PlayerScreen({ navigation, route }) {
                   maximumTrackTintColor="#ffffff"
                   thumbTintColor="#ff0000"
                 />
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <View style={{ 
+                  flexDirection: 'row', 
+                  justifyContent: 'space-between',
+                  marginTop: moderateScale(8)
+                }}>
                   <Text style={{ color: 'white' }}>{formatTime(position)}</Text>
                   <Text style={{ color: 'white' }}>{formatTime(duration)}</Text>
                 </View>
               </View>
 
               {/* Control buttons */}
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', spaceBetween: 16 }}>
+              <View style={{ 
+                flexDirection: 'row', 
+                alignItems: 'center', 
+                justifyContent: 'space-between',
+                marginTop: moderateScale(8)
+              }}>
+                <View style={{ 
+                  flexDirection: 'row', 
+                  alignItems: 'center', 
+                  gap: moderateScale(16) 
+                }}>
                   <TouchableOpacity onPress={() => handleVolumeChange(volume === 0 ? 1 : 0)}>
                     <Ionicons 
                       name={volume === 0 ? "volume-mute" : "volume-medium"} 
@@ -155,7 +189,11 @@ export default function PlayerScreen({ navigation, route }) {
                   </TouchableOpacity>
                 </View>
 
-                <View style={{ flexDirection: 'row', alignItems: 'center', spaceBetween: 16 }}>
+                <View style={{ 
+                  flexDirection: 'row', 
+                  alignItems: 'center', 
+                  gap: moderateScale(16)
+                }}>
                   <TouchableOpacity>
                     <Ionicons name="closed-captioning-outline" size={moderateScale(24)} color="white" />
                   </TouchableOpacity>
