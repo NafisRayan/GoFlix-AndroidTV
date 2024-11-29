@@ -7,7 +7,7 @@ export default function Header() {
 
   return (
     <View className="flex-row justify-between items-center px-4 py-2">
-      <Text className="text-red-600 text-3xl font-bold">NETFLIX</Text>
+      <Text className="text-red-600 text-3xl font-bold">GoFlix</Text>
       <View className="flex-row space-x-4">
         <TouchableOpacity onPress={() => navigation.navigate('Search')}>
           <Ionicons name="search" size={24} color="white" />
