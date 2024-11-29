@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { horizontalScale, verticalScale, moderateScale } from '../utils/dimensions';
 import { useNavigation } from '@react-navigation/native';
 
@@ -28,10 +28,14 @@ export default function MovieList({ title }) {
             style={{ padding: horizontalScale(8) }}
             onPress={() => handleMoviePress(item)}
           >
-            <View style={{
-              width: horizontalScale(128),
-              height: verticalScale(192),
-            }} className="bg-gray-800 rounded-lg" />
+            <Image 
+              source={{ uri: `https://www.pngkey.com/png/full/146-1460159_saitama-sticker-one-punch-man-saitama-ok.png` }} // Example image URL
+              style={{
+                width: horizontalScale(128),
+                height: verticalScale(192),
+              }}
+              className="rounded-lg"
+            />
           </TouchableOpacity>
         ))}
       </ScrollView>
