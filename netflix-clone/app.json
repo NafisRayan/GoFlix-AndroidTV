@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "netflix-clone",
-    "slug": "netflix-clone",
+    "name": "goflix",
+    "slug": "goflix",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

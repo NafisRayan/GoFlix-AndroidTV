@@ -34,7 +34,7 @@ export default function ProfileScreen() {
           <View className="bg-gray-800 rounded-full p-8 mb-4">
             <Ionicons name="person-outline" size={moderateScale(48)} color="gray" />
           </View>
-          <Text className="text-white text-xl font-semibold">Netflix User</Text>
+          <Text className="text-white text-xl font-semibold">GoFlix User</Text>
         </View>
 
         <View className="px-4">

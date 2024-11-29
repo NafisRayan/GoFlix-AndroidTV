@@ -16,7 +16,7 @@ export default function HomeScreen() {
         <Header />
         <View style={{ gap: verticalScale(20) }}>
           <MovieList title="Trending Now" />
-          <MovieList title="Popular on Netflix" />
+          <MovieList title="Popular on GoFlix" />
           <MovieList title="My List" />
           <MovieList title="New Releases" />
         </View>
