@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions, StyleSheet, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useState, useEffect, useRef, useCallback, useLayoutEffect, memo } from 'react';
@@ -72,6 +72,15 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     justifyContent: 'space-between'
+  },
+  playPauseButtonDisabled: {
+    opacity: 0.5
+  },
+  errorText: {
+    color: 'red',
+    fontSize: moderateScale(12),
+    textAlign: 'center',
+    marginTop: moderateScale(4)
   }
 });
 
@@ -133,7 +142,7 @@ const BottomControls = memo(({
 
       <View style={styles.buttonGroup}>
         <TouchableOpacity>
-          <Ionicons name="closed-captioning-outline" size={moderateScale(24)} color="white" />
+          <Ionicons name="chatbox-outline" size={moderateScale(24)} color="white" />
         </TouchableOpacity>
         <TouchableOpacity onPress={toggleFullscreen}>
           <Ionicons 
@@ -147,13 +156,21 @@ const BottomControls = memo(({
   </SafeAreaView>
 ));
 
-const PlayPauseButton = memo(({ isPlaying, onPress }) => (
-  <TouchableOpacity onPress={onPress} style={styles.playPauseButton}>
-    <Ionicons 
-      name={isPlaying ? "pause" : "play"} 
-      size={moderateScale(32)} 
-      color="white" 
-    />
+const PlayPauseButton = memo(({ isPlaying, onPress, isLoading }) => (
+  <TouchableOpacity 
+    onPress={onPress} 
+    style={[styles.playPauseButton, isLoading && styles.playPauseButtonDisabled]}
+    disabled={isLoading}
+  >
+    {isLoading ? (
+      <ActivityIndicator color="white" size="small" />
+    ) : (
+      <Ionicons 
+        name={isPlaying ? "pause" : "play"} 
+        size={moderateScale(32)} 
+        color="white" 
+      />
+    )}
   </TouchableOpacity>
 ));
 
@@ -165,6 +182,8 @@ export default function PlayerScreen({ navigation, route }) {
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(0);
   const videoRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // Optimize control hiding with useLayoutEffect
   useLayoutEffect(() => {
@@ -186,25 +205,49 @@ export default function PlayerScreen({ navigation, route }) {
   // Memoize callback functions
   const handlePlaybackStatusUpdate = useCallback((playbackStatus) => {
     if (!playbackStatus.isLoaded) return;
-    
-    setStatus(playbackStatus);
+
+    // Only update status if it's a user-initiated change
+    if (playbackStatus.isPlaying !== status.isPlaying) {
+      setStatus(playbackStatus);
+    }
+
     setPosition(playbackStatus.positionMillis);
     setDuration(playbackStatus.durationMillis);
   }, []);
 
   const togglePlayPause = useCallback(async () => {
-    try {
-      if (!videoRef.current) return;
-      
-      if (status.isPlaying) {
-        await videoRef.current.pauseAsync();
-      } else {
-        await videoRef.current.playAsync();
-      }
-    } catch (error) {
-      console.error('Error toggling play/pause:', error);
+    if (!videoRef.current) {
+        console.error('Video reference not available');
+        return;
     }
-  }, [status.isPlaying]);
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+        const currentStatus = await videoRef.current.getStatusAsync();
+
+        // Check if the video is loaded before attempting to play/pause
+        if (!currentStatus.isLoaded) {
+            await videoRef.current.loadAsync(
+                { uri: route.params?.videoUrl || 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' },
+                { shouldPlay: true }
+            );
+        } else {
+            // Toggle play/pause based on current status
+            if (currentStatus.isPlaying) {
+                await videoRef.current.pauseAsync();
+            } else {
+                await videoRef.current.playAsync();
+            }
+        }
+    } catch (error) {
+        setError(`Playback error: ${error.message}`);
+        console.error('Detailed playback error:', error);
+    } finally {
+        setIsLoading(false);
+    }
+  }, [route.params?.videoUrl, videoRef]);
 
   const handleSeek = useCallback(async (value) => {
     try {
@@ -231,6 +274,61 @@ export default function PlayerScreen({ navigation, route }) {
     setIsFullscreen(prev => !prev);
   }, []);
 
+  // Add error retry handler
+  const handleRetry = useCallback(async () => {
+    if (!error) return;
+    
+    setError(null);
+    await togglePlayPause();
+  }, [error, togglePlayPause]);
+
+  // Add better initial loading
+  useEffect(() => {
+    const loadVideo = async () => {
+      try {
+        if (!videoRef.current) return;
+        
+        setIsLoading(true);
+        setError(null);
+        
+        const videoSource = { 
+          uri: route.params?.videoUrl || 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'
+        };
+        
+        const status = await videoRef.current.loadAsync(
+          videoSource,
+          { 
+            shouldPlay: false,
+            isMuted: false,
+            volume: 1.0,
+            isLooping: true
+          }
+        );
+        
+        console.log('Initial load status:', status);
+        
+        if (!status.isLoaded) {
+          throw new Error('Failed to load video');
+        }
+        
+        setStatus(status);
+      } catch (error) {
+        setError(`Failed to load video: ${error.message}`);
+        console.error('Video loading error:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadVideo();
+
+    return () => {
+      if (videoRef.current) {
+        videoRef.current.unloadAsync();
+      }
+    };
+  }, [route.params?.videoUrl]);
+
   return (
     <View style={{ flex: 1, backgroundColor: 'black' }}>
       <TouchableOpacity 
@@ -248,7 +346,12 @@ export default function PlayerScreen({ navigation, route }) {
           useNativeControls={false}
           resizeMode={ResizeMode.CONTAIN}
           isLooping
+          shouldPlay={false}
           onPlaybackStatusUpdate={handlePlaybackStatusUpdate}
+          onError={(error) => {
+            console.error('Video error event:', error);
+            setError('Video playback error occurred');
+          }}
           volume={volume}
         />
 
@@ -257,7 +360,7 @@ export default function PlayerScreen({ navigation, route }) {
             <TopControls onBack={() => navigation.goBack()} title={route.params?.title} />
             
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-              <PlayPauseButton isPlaying={status.isPlaying} onPress={togglePlayPause} />
+              <PlayPauseButton isPlaying={status.isPlaying} onPress={togglePlayPause} isLoading={isLoading} />
             </View>
 
             <BottomControls
