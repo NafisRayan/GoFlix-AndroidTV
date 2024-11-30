@@ -32,119 +32,6 @@ import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000', // Dark background for better video contrast
-  },
-  videoContainer: {
-    width: SCREEN_WIDTH,
-    height: SCREEN_WIDTH * (9 / 16), // 16:9 Aspect Ratio
-    backgroundColor: 'black',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  fullscreenVideoContainer: {
-    width: SCREEN_HEIGHT,
-    height: SCREEN_WIDTH,
-    transform: [{ rotate: '90deg' }],
-  },
-  controlsOverlay: {
-    position: 'absolute',
-    bottom: verticalScale(30), // Responsive vertical positioning
-    left: horizontalScale(10), // Responsive horizontal positioning
-    right: horizontalScale(10),
-    backgroundColor: 'rgba(0, 0, 0, 0.4)', // Semi-transparent background
-    borderRadius: moderateScale(10),
-    padding: moderateScale(10),
-  },
-  controlButtonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    paddingHorizontal: horizontalScale(20),
-    marginTop: verticalScale(10),
-  },
-  controlButton: {
-    padding: moderateScale(10),
-  },
-  progressBarContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
-    paddingHorizontal: horizontalScale(10),
-  },
-  progressText: {
-    color: '#fff',
-    fontSize: moderateScale(12),
-    marginHorizontal: horizontalScale(5),
-  },
-  commentsContainer: {
-    flex: 1,
-    padding: horizontalScale(10),
-    backgroundColor: '#121212',
-  },
-  commentsHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: verticalScale(10),
-  },
-  commentsTitle: {
-    color: '#fff',
-    fontSize: moderateScale(18),
-    fontWeight: 'bold',
-  },
-  commentItem: {
-    marginBottom: verticalScale(10),
-  },
-  commentAuthor: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: moderateScale(14),
-  },
-  commentText: {
-    color: '#ccc',
-    marginTop: verticalScale(2),
-    fontSize: moderateScale(14),
-  },
-  commentInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderTopWidth: 1,
-    borderTopColor: '#333',
-    paddingVertical: verticalScale(5),
-  },
-  commentInput: {
-    flex: 1,
-    color: '#fff',
-    paddingHorizontal: horizontalScale(10),
-    paddingVertical: verticalScale(5),
-    backgroundColor: '#1e1e1e',
-    borderRadius: moderateScale(20),
-    marginRight: horizontalScale(10),
-    fontSize: moderateScale(14),
-  },
-  sendButton: {
-    padding: moderateScale(10),
-  },
-  loadingOverlay: {
-    position: 'absolute',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    width: '100%',
-    height: '100%',
-  },
-  errorText: {
-    color: 'red',
-    fontSize: moderateScale(14),
-    textAlign: 'center',
-    marginTop: verticalScale(10),
-  },
-});
-
 export default function PlayerScreen({ navigation, route }) {
   const [showControls, setShowControls] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -291,10 +178,10 @@ export default function PlayerScreen({ navigation, route }) {
   // Style for the video player
   const videoStyle = useMemo(
     () => ({
-      width: isFullscreen ? SCREEN_HEIGHT : SCREEN_WIDTH,
-      height: isFullscreen ? SCREEN_WIDTH : SCREEN_WIDTH * (9 / 16),
+      width: '100%',
+      height: '100%',
     }),
-    [isFullscreen]
+    []
   );
 
   // Handle adding a new comment
@@ -306,19 +193,10 @@ export default function PlayerScreen({ navigation, route }) {
     setNewComment('');
   };
 
-  // Detect device rotation changes
-  useEffect(() => {
-    const subscription = Dimensions.addEventListener('change', () => {
-      const { width, height } = Dimensions.get('window');
-      // You can handle dynamic adjustments here if necessary
-    });
-    return () => subscription?.remove();
-  }, []);
-
   return (
     <SafeAreaView style={styles.container}>
       <TouchableWithoutFeedback onPress={() => setShowControls(!showControls)}>
-        <View style={styles.videoContainer}>
+        <View style={isFullscreen ? styles.fullscreenVideoContainer : styles.videoContainer}>
           <Video
             ref={videoRef}
             style={videoStyle}
@@ -383,9 +261,7 @@ export default function PlayerScreen({ navigation, route }) {
                       videoRef.current.playAsync();
                     }
                   }}
-                  accessibilityLabel={
-                    status.isPlaying ? 'Pause Video' : 'Play Video'
-                  }
+                  accessibilityLabel={status.isPlaying ? 'Pause Video' : 'Play Video'}
                 >
                   <Ionicons
                     name={status.isPlaying ? 'pause' : 'play'}
@@ -396,7 +272,7 @@ export default function PlayerScreen({ navigation, route }) {
                 <TouchableOpacity
                   onPress={toggleFullscreen}
                   style={styles.controlButton}
-                  accessibilityLabel="Toggle Fullscreen"
+                  accessibilityLabel={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
                 >
                   <Ionicons
                     name={isFullscreen ? 'contract' : 'expand'}
@@ -524,3 +400,120 @@ export default function PlayerScreen({ navigation, route }) {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#000', // Dark background for better video contrast
+  },
+  videoContainer: {
+    width: SCREEN_WIDTH,
+    height: SCREEN_WIDTH * (9 / 16), // 16:9 Aspect Ratio
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  fullscreenVideoContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: SCREEN_HEIGHT,
+    height: SCREEN_WIDTH,
+    backgroundColor: 'black',
+    zIndex: 9999,
+  },
+  controlsOverlay: {
+    position: 'absolute',
+    bottom: verticalScale(30), // Responsive vertical positioning
+    left: horizontalScale(10), // Responsive horizontal positioning
+    right: horizontalScale(10),
+    backgroundColor: 'rgba(0, 0, 0, 0.4)', // Semi-transparent background
+    borderRadius: moderateScale(10),
+    padding: moderateScale(10),
+  },
+  controlButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    paddingHorizontal: horizontalScale(20),
+    marginTop: verticalScale(10),
+  },
+  controlButton: {
+    padding: moderateScale(10),
+  },
+  progressBarContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    paddingHorizontal: horizontalScale(10),
+  },
+  progressText: {
+    color: '#fff',
+    fontSize: moderateScale(12),
+    marginHorizontal: horizontalScale(5),
+  },
+  commentsContainer: {
+    flex: 1,
+    padding: horizontalScale(10),
+    backgroundColor: '#121212',
+  },
+  commentsHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: verticalScale(10),
+  },
+  commentsTitle: {
+    color: '#fff',
+    fontSize: moderateScale(18),
+    fontWeight: 'bold',
+  },
+  commentItem: {
+    marginBottom: verticalScale(10),
+  },
+  commentAuthor: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: moderateScale(14),
+  },
+  commentText: {
+    color: '#ccc',
+    marginTop: verticalScale(2),
+    fontSize: moderateScale(14),
+  },
+  commentInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderTopWidth: 1,
+    borderTopColor: '#333',
+    paddingVertical: verticalScale(5),
+  },
+  commentInput: {
+    flex: 1,
+    color: '#fff',
+    paddingHorizontal: horizontalScale(10),
+    paddingVertical: verticalScale(10),
+    backgroundColor: '#1e1e1e',
+    borderRadius: moderateScale(20),
+    marginRight: horizontalScale(10),
+    fontSize: moderateScale(14),
+  },
+  sendButton: {
+    padding: moderateScale(10),
+  },
+  loadingOverlay: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    width: '100%',
+    height: '100%',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: moderateScale(14),
+    textAlign: 'center',
+    marginTop: verticalScale(10),
+  },
+});
