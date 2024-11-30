@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   commentItem: {
-    marginBottom: verticalScale(10),
+    marginBottom: verticalScale(20),
   },
   commentAuthor: {
     color: '#fff',
@@ -91,10 +91,11 @@ const styles = StyleSheet.create({
     flex: 1,
     color: '#fff',
     paddingHorizontal: horizontalScale(10),
-    paddingVertical: verticalScale(5),
+    paddingVertical: verticalScale(15),
     backgroundColor: '#1e1e1e',
     borderRadius: moderateScale(20),
     marginRight: horizontalScale(10),
+    marginTop: verticalScale(10),
     fontSize: moderateScale(14),
   },
   sendButton: {
@@ -127,8 +128,8 @@ export default function PlayerScreen({ navigation, route }) {
   const [error, setError] = useState(null);
   const [status, setStatus] = useState({});
   const [comments, setComments] = useState([
-    { id: '1', author: 'User1', text: 'Great video!' },
-    { id: '2', author: 'User2', text: 'Loved it!' },
+    { id: '1', author: 'Rakib', text: 'Great video!' },
+    { id: '2', author: 'Shoheb', text: 'Loved it!' },
     // ... more mock comments
   ]);
   const [newComment, setNewComment] = useState('');
