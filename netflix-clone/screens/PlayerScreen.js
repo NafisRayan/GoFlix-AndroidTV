@@ -43,8 +43,8 @@ export default function PlayerScreen({ navigation, route }) {
   const [error, setError] = useState(null);
   const [status, setStatus] = useState({});
   const [comments, setComments] = useState([
-    { id: '1', author: 'User1', text: 'Great video!' },
-    { id: '2', author: 'User2', text: 'Loved it!' },
+    { id: '1', author: 'Rakib', text: 'Great video!' },
+    { id: '2', author: 'Shoeb', text: 'Loved it!' },
     // ... more mock comments
   ]);
   const [newComment, setNewComment] = useState('');
@@ -470,7 +470,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   commentItem: {
-    marginBottom: verticalScale(10),
+    marginTop: verticalScale(15),
+    marginBottom: verticalScale(15),
   },
   commentAuthor: {
     color: '#fff',
