@@ -1,10 +1,36 @@
-import React, { useState, useEffect, useRef, useCallback, useLayoutEffect, useMemo } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, FlatList, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useLayoutEffect,
+  useMemo,
+} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+  FlatList,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  Dimensions,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Video, ResizeMode } from 'expo-av';
-import { moderateScale, SCREEN_WIDTH, SCREEN_HEIGHT, horizontalScale, verticalScale } from '../utils/dimensions';
+import {
+  moderateScale,
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
+  horizontalScale,
+  verticalScale,
+} from '../utils/dimensions';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 const styles = StyleSheet.create({
   container: {
@@ -13,18 +39,21 @@ const styles = StyleSheet.create({
   },
   videoContainer: {
     width: SCREEN_WIDTH,
-    height: SCREEN_WIDTH * 0.5625, // 16:9 Aspect Ratio
+    height: SCREEN_WIDTH * (9 / 16), // 16:9 Aspect Ratio
     backgroundColor: 'black',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  fullscreenVideoContainer: {
+    width: SCREEN_HEIGHT,
+    height: SCREEN_WIDTH,
+    transform: [{ rotate: '90deg' }],
   },
   controlsOverlay: {
     position: 'absolute',
     bottom: verticalScale(30), // Responsive vertical positioning
     left: horizontalScale(10), // Responsive horizontal positioning
     right: horizontalScale(10),
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.4)', // Semi-transparent background
     borderRadius: moderateScale(10),
     padding: moderateScale(10),
@@ -68,7 +97,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   commentItem: {
-    marginBottom: verticalScale(20),
+    marginBottom: verticalScale(10),
   },
   commentAuthor: {
     color: '#fff',
@@ -91,11 +120,10 @@ const styles = StyleSheet.create({
     flex: 1,
     color: '#fff',
     paddingHorizontal: horizontalScale(10),
-    paddingVertical: verticalScale(15),
+    paddingVertical: verticalScale(5),
     backgroundColor: '#1e1e1e',
     borderRadius: moderateScale(20),
     marginRight: horizontalScale(10),
-    marginTop: verticalScale(10),
     fontSize: moderateScale(14),
   },
   sendButton: {
@@ -106,8 +134,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
-    width: SCREEN_WIDTH,
-    height: SCREEN_WIDTH * 0.5625,
+    width: '100%',
+    height: '100%',
   },
   errorText: {
     color: 'red',
@@ -128,18 +156,19 @@ export default function PlayerScreen({ navigation, route }) {
   const [error, setError] = useState(null);
   const [status, setStatus] = useState({});
   const [comments, setComments] = useState([
-    { id: '1', author: 'Rakib', text: 'Great video!' },
-    { id: '2', author: 'Shoheb', text: 'Loved it!' },
+    { id: '1', author: 'User1', text: 'Great video!' },
+    { id: '2', author: 'User2', text: 'Loved it!' },
     // ... more mock comments
   ]);
   const [newComment, setNewComment] = useState('');
 
   // Hide controls after 3 seconds of inactivity
   useLayoutEffect(() => {
+    let timer;
     if (showControls) {
-      const timer = setTimeout(() => setShowControls(false), 3000);
-      return () => clearTimeout(timer);
+      timer = setTimeout(() => setShowControls(false), 3000);
     }
+    return () => clearTimeout(timer);
   }, [showControls]);
 
   // Format milliseconds to MM:SS
@@ -177,9 +206,22 @@ export default function PlayerScreen({ navigation, route }) {
   }, []);
 
   // Toggle fullscreen mode
-  const toggleFullscreen = useCallback(() => {
-    setIsFullscreen((prev) => !prev);
-  }, []);
+  const toggleFullscreen = useCallback(async () => {
+    if (isFullscreen) {
+      // Exit Fullscreen
+      await ScreenOrientation.lockAsync(
+        ScreenOrientation.OrientationLock.PORTRAIT
+      );
+      setIsFullscreen(false);
+    } else {
+      // Enter Fullscreen
+      await ScreenOrientation.lockAsync(
+        ScreenOrientation.OrientationLock.LANDSCAPE
+      );
+      setIsFullscreen(true);
+      setShowControls(true); // Show controls when entering fullscreen
+    }
+  }, [isFullscreen]);
 
   // Retry loading the video on error
   const handleRetry = useCallback(async () => {
@@ -188,7 +230,11 @@ export default function PlayerScreen({ navigation, route }) {
     setIsLoading(true);
     try {
       await videoRef.current.loadAsync(
-        { uri: route.params?.videoUrl || 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' },
+        {
+          uri:
+            route.params?.videoUrl ||
+            'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+        },
         { shouldPlay: false, isLooping: true }
       );
       setIsLoading(false);
@@ -209,7 +255,11 @@ export default function PlayerScreen({ navigation, route }) {
       }
       try {
         await videoRef.current.loadAsync(
-          { uri: route.params?.videoUrl || 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' },
+          {
+            uri:
+              route.params?.videoUrl ||
+              'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+          },
           { shouldPlay: false, isLooping: true }
         );
         const status = await videoRef.current.getStatusAsync();
@@ -233,25 +283,16 @@ export default function PlayerScreen({ navigation, route }) {
       if (videoRef.current) {
         videoRef.current.unloadAsync();
       }
+      // Unlock all orientations on component unmount
+      ScreenOrientation.unlockAsync();
     };
   }, [route.params?.videoUrl]);
-
-  // Update position as the video plays
-  useEffect(() => {
-    if (status.isLoaded && status.positionMillis) {
-      setPosition(status.positionMillis);
-    }
-    if (status.isLoaded && status.durationMillis) {
-      setDuration(status.durationMillis);
-    }
-  }, [status]);
 
   // Style for the video player
   const videoStyle = useMemo(
     () => ({
       width: isFullscreen ? SCREEN_HEIGHT : SCREEN_WIDTH,
-      height: isFullscreen ? SCREEN_WIDTH : SCREEN_WIDTH * 0.5625,
-      transform: [{ rotate: isFullscreen ? '90deg' : '0deg' }],
+      height: isFullscreen ? SCREEN_WIDTH : SCREEN_WIDTH * (9 / 16),
     }),
     [isFullscreen]
   );
@@ -265,17 +306,27 @@ export default function PlayerScreen({ navigation, route }) {
     setNewComment('');
   };
 
+  // Detect device rotation changes
+  useEffect(() => {
+    const subscription = Dimensions.addEventListener('change', () => {
+      const { width, height } = Dimensions.get('window');
+      // You can handle dynamic adjustments here if necessary
+    });
+    return () => subscription?.remove();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.videoContainer}>
-        <TouchableOpacity
-          style={styles.videoContainer}
-          onPress={() => setShowControls(!showControls)}
-        >
+      <TouchableWithoutFeedback onPress={() => setShowControls(!showControls)}>
+        <View style={styles.videoContainer}>
           <Video
             ref={videoRef}
             style={videoStyle}
-            source={{ uri: route.params?.videoUrl || 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' }}
+            source={{
+              uri:
+                route.params?.videoUrl ||
+                'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+            }}
             useNativeControls={false} // Custom controls
             resizeMode={ResizeMode.CONTAIN}
             isLooping
@@ -332,6 +383,9 @@ export default function PlayerScreen({ navigation, route }) {
                       videoRef.current.playAsync();
                     }
                   }}
+                  accessibilityLabel={
+                    status.isPlaying ? 'Pause Video' : 'Play Video'
+                  }
                 >
                   <Ionicons
                     name={status.isPlaying ? 'pause' : 'play'}
@@ -339,68 +393,134 @@ export default function PlayerScreen({ navigation, route }) {
                     color="#fff"
                   />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={toggleFullscreen} style={styles.controlButton}>
+                <TouchableOpacity
+                  onPress={toggleFullscreen}
+                  style={styles.controlButton}
+                  accessibilityLabel="Toggle Fullscreen"
+                >
                   <Ionicons
                     name={isFullscreen ? 'contract' : 'expand'}
                     size={moderateScale(24)}
                     color="#fff"
                   />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => { /* Like functionality */ }} style={styles.controlButton}>
-                  <Ionicons name="heart-outline" size={moderateScale(24)} color="#fff" />
+                <TouchableOpacity
+                  onPress={() => {
+                    // Implement Like functionality
+                    console.log('Like button pressed');
+                  }}
+                  style={styles.controlButton}
+                  accessibilityLabel="Like Video"
+                >
+                  <Ionicons
+                    name="heart-outline"
+                    size={moderateScale(24)}
+                    color="#fff"
+                  />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => { /* Share functionality */ }} style={styles.controlButton}>
-                  <MaterialIcons name="share" size={moderateScale(24)} color="#fff" />
+                <TouchableOpacity
+                  onPress={() => {
+                    // Implement Share functionality
+                    console.log('Share button pressed');
+                  }}
+                  style={styles.controlButton}
+                  accessibilityLabel="Share Video"
+                >
+                  <MaterialIcons
+                    name="share"
+                    size={moderateScale(24)}
+                    color="#fff"
+                  />
                 </TouchableOpacity>
               </View>
             </View>
           )}
           {error && (
-            <View style={{ position: 'absolute', bottom: verticalScale(50), width: '100%', alignItems: 'center' }}>
+            <View
+              style={{
+                position: 'absolute',
+                bottom: verticalScale(50),
+                width: '100%',
+                alignItems: 'center',
+              }}
+            >
               <Text style={styles.errorText}>{error}</Text>
-              <TouchableOpacity onPress={handleRetry} style={{ marginTop: verticalScale(10) }}>
-                <Text style={{ color: '#fff', textDecorationLine: 'underline', fontSize: moderateScale(14) }}>Retry</Text>
+              <TouchableOpacity
+                onPress={handleRetry}
+                style={{ marginTop: verticalScale(10) }}
+                accessibilityLabel="Retry Loading Video"
+              >
+                <Text
+                  style={{
+                    color: '#fff',
+                    textDecorationLine: 'underline',
+                    fontSize: moderateScale(14),
+                  }}
+                >
+                  Retry
+                </Text>
               </TouchableOpacity>
             </View>
           )}
-        </TouchableOpacity>
-      </View>
-      <KeyboardAvoidingView
-        style={styles.commentsContainer}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
-        <View style={styles.commentsHeader}>
-          <Text style={styles.commentsTitle}>Comments</Text>
-          <TouchableOpacity onPress={() => { /* Sort or filter comments */ }}>
-            <Ionicons name="filter" size={moderateScale(24)} color="#fff" />
-          </TouchableOpacity>
         </View>
-        <FlatList
-          data={comments}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.commentItem}>
-              <Text style={styles.commentAuthor}>{item.author}</Text>
-              <Text style={styles.commentText}>{item.text}</Text>
-            </View>
-          )}
-          ListEmptyComponent={<Text style={{ color: '#fff', fontSize: moderateScale(14) }}>No comments yet.</Text>}
-        />
-        <View style={styles.commentInputContainer}>
-          <TextInput
-            style={styles.commentInput}
-            placeholder="Add a comment..."
-            placeholderTextColor="#888"
-            value={newComment}
-            onChangeText={setNewComment}
-            onSubmitEditing={handleAddComment}
-            multiline
+      </TouchableWithoutFeedback>
+      {!isFullscreen && (
+        <KeyboardAvoidingView
+          style={styles.commentsContainer}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+          <View style={styles.commentsHeader}>
+            <Text style={styles.commentsTitle}>Comments</Text>
+            <TouchableOpacity
+              onPress={() => {
+                // Implement Sort or Filter functionality
+                console.log('Filter button pressed');
+              }}
+              accessibilityLabel="Filter Comments"
+            >
+              <Ionicons name="filter" size={moderateScale(24)} color="#fff" />
+            </TouchableOpacity>
+          </View>
+          <FlatList
+            data={comments}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View style={styles.commentItem}>
+                <Text style={styles.commentAuthor}>{item.author}</Text>
+                <Text style={styles.commentText}>{item.text}</Text>
+              </View>
+            )}
+            ListEmptyComponent={
+              <Text style={{ color: '#fff', fontSize: moderateScale(14) }}>
+                No comments yet.
+              </Text>
+            }
           />
-          <TouchableOpacity onPress={handleAddComment} style={styles.sendButton}>
-            <Ionicons name="send" size={moderateScale(24)} color="#1e90ff" />
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
+          <View style={styles.commentInputContainer}>
+            <TextInput
+              style={styles.commentInput}
+              placeholder="Add a comment..."
+              placeholderTextColor="#888"
+              value={newComment}
+              onChangeText={setNewComment}
+              onSubmitEditing={handleAddComment}
+              multiline
+              accessibilityLabel="Add a comment"
+            />
+            <TouchableOpacity
+              onPress={handleAddComment}
+              style={styles.sendButton}
+              accessibilityLabel="Send Comment"
+            >
+              <Ionicons
+                name="send"
+                size={moderateScale(24)}
+                color="#1e90ff"
+              />
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      )}
     </SafeAreaView>
   );
 }
