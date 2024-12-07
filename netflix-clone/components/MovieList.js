@@ -8,7 +8,8 @@ export default function MovieList({ title, movies = [] }) {
   const handleMoviePress = (movie) => {
     navigation.navigate('Player', {
       title: movie.title,
-      videoUrl: movie.videoUrl
+      videoUrl: movie.videoUrl,
+      comments: movie.comments
     });
   };
 

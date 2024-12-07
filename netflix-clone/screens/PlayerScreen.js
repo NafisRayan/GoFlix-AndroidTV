@@ -42,11 +42,9 @@ export default function PlayerScreen({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [status, setStatus] = useState({});
-  const [comments, setComments] = useState([
-    { id: '1', author: 'Rakib', text: 'Great video!' },
-    { id: '2', author: 'Shoeb', text: 'Loved it!' },
-    // ... more mock comments
-  ]);
+  const [comments, setComments] = useState(
+    route.params?.comments || []
+  );
   const [newComment, setNewComment] = useState('');
 
   // Hide controls after 3 seconds of inactivity
@@ -188,7 +186,11 @@ export default function PlayerScreen({ navigation, route }) {
   const handleAddComment = () => {
     if (newComment.trim() === '') return;
     const newId = (comments.length + 1).toString();
-    const comment = { id: newId, author: 'You', text: newComment };
+    const comment = {
+      id: newId,
+      author: 'You',
+      text: newComment
+    };
     setComments([...comments, comment]);
     setNewComment('');
   };
