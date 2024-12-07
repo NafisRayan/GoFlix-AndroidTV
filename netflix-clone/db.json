@@ -1,0 +1,148 @@
+{
+  "categories": [
+    {
+      "id": "trending",
+      "title": "Trending Now",
+      "movies": [
+        {
+          "id": 1,
+          "title": "Big Buck Bunny",
+          "imageUrl": "https://picsum.photos/seed/trend1/300/450",
+          "videoUrl": "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
+        },
+        {
+          "id": 2,
+          "title": "Elephant Dream",
+          "imageUrl": "https://picsum.photos/seed/trend2/300/450",
+          "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+        },
+        {
+          "id": 3,
+          "title": "Sintel",
+          "imageUrl": "https://picsum.photos/seed/trend3/300/450",
+          "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
+        },
+        {
+          "id": 4,
+          "title": "Tears of Steel",
+          "imageUrl": "https://picsum.photos/seed/trend4/300/450",
+          "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
+        },
+        {
+          "id": 5,
+          "title": "Caminandes",
+          "imageUrl": "https://picsum.photos/seed/trend5/300/450",
+          "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+        }
+      ]
+    },
+    {
+      "id": "popular",
+      "title": "Popular on GoFlix",
+      "movies": [
+        {
+          "id": 6,
+          "title": "Nature Documentary",
+          "imageUrl": "https://picsum.photos/seed/pop1/300/450",
+          "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+        },
+        {
+          "id": 7,
+          "title": "City Lights",
+          "imageUrl": "https://picsum.photos/seed/pop2/300/450",
+          "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+        },
+        {
+          "id": 8,
+          "title": "Mountain Peak",
+          "imageUrl": "https://picsum.photos/seed/pop3/300/450",
+          "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
+        },
+        {
+          "id": 9,
+          "title": "Ocean Waves",
+          "imageUrl": "https://picsum.photos/seed/pop4/300/450",
+          "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
+        },
+        {
+          "id": 10,
+          "title": "Desert Storm",
+          "imageUrl": "https://picsum.photos/seed/pop5/300/450",
+          "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+        }
+      ]
+    },
+    {
+      "id": "mylist",
+      "title": "My List",
+      "movies": [
+        {
+          "id": 11,
+          "title": "Forest Adventure",
+          "imageUrl": "https://picsum.photos/seed/list1/300/450",
+          "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+        },
+        {
+          "id": 12,
+          "title": "Space Journey",
+          "imageUrl": "https://picsum.photos/seed/list2/300/450",
+          "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+        },
+        {
+          "id": 13,
+          "title": "Deep Blue",
+          "imageUrl": "https://picsum.photos/seed/list3/300/450",
+          "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
+        },
+        {
+          "id": 14,
+          "title": "Urban Tales",
+          "imageUrl": "https://picsum.photos/seed/list4/300/450",
+          "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
+        },
+        {
+          "id": 15,
+          "title": "Winter Story",
+          "imageUrl": "https://picsum.photos/seed/list5/300/450",
+          "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+        }
+      ]
+    },
+    {
+      "id": "new",
+      "title": "New Releases",
+      "movies": [
+        {
+          "id": 16,
+          "title": "Summer Dreams",
+          "imageUrl": "https://picsum.photos/seed/new1/300/450",
+          "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+        },
+        {
+          "id": 17,
+          "title": "Midnight Run",
+          "imageUrl": "https://picsum.photos/seed/new2/300/450",
+          "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+        },
+        {
+          "id": 18,
+          "title": "Lost Island",
+          "imageUrl": "https://picsum.photos/seed/new3/300/450",
+          "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
+        },
+        {
+          "id": 19,
+          "title": "Sky High",
+          "imageUrl": "https://picsum.photos/seed/new4/300/450",
+          "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
+        },
+        {
+          "id": 20,
+          "title": "Last Light",
+          "imageUrl": "https://picsum.photos/seed/new5/300/450",
+          "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+        }
+      ]
+    }
+  ]
+}

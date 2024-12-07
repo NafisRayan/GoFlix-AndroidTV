@@ -2,13 +2,13 @@ import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { horizontalScale, verticalScale, moderateScale } from '../utils/dimensions';
 import { useNavigation } from '@react-navigation/native';
 
-export default function MovieList({ title }) {
+export default function MovieList({ title, movies = [] }) {
   const navigation = useNavigation();
 
   const handleMoviePress = (movie) => {
     navigation.navigate('Player', {
-      title: 'Sample Movie',
-      videoUrl: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' // Example video URL
+      title: movie.title,
+      videoUrl: movie.videoUrl
     });
   };
 
@@ -22,14 +22,14 @@ export default function MovieList({ title }) {
         {title}
       </Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {[1, 2, 3, 4, 5].map((item) => (
+        {movies.map((movie) => (
           <TouchableOpacity 
-            key={item} 
+            key={movie.id} 
             style={{ padding: horizontalScale(8) }}
-            onPress={() => handleMoviePress(item)}
+            onPress={() => handleMoviePress(movie)}
           >
             <Image 
-              source={{ uri: `https://www.pngkey.com/png/full/146-1460159_saitama-sticker-one-punch-man-saitama-ok.png` }} // Example image URL
+              source={{ uri: movie.imageUrl }}
               style={{
                 width: horizontalScale(128),
                 height: verticalScale(192),
