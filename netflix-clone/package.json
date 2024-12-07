@@ -20,6 +20,7 @@
     "expo-av": "~15.0.1",
     "expo-screen-orientation": "~8.0.0",
     "expo-status-bar": "~2.0.0",
+    "expo-video": "~2.0.2",
     "goflix": "file:",
     "nativewind": "^2.0.11",
     "postcss": "^8.4.31",

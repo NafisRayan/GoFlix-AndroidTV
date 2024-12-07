@@ -1,0 +1,228 @@
+{
+  "categories": [
+    {
+      "id": "trending",
+      "title": "Trending Now",
+      "movies": [
+        {
+          "id": 1,
+          "title": "Inception",
+          "imageUrl": "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
+          "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+          "comments": [
+            { "id": "1", "author": "Rakib", "text": "Great movie!" },
+            { "id": "2", "author": "Shoeb", "text": "Loved it!" }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "The Dark Knight",
+          "imageUrl": "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_SX300.jpg",
+          "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+          "comments": [
+            { "id": "3", "author": "Rakib", "text": "Awesome!" },
+            { "id": "4", "author": "Shoeb", "text": "Fantastic!" }
+          ]
+        },
+        {
+          "id": 3,
+          "title": "Interstellar",
+          "imageUrl": "https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg",
+          "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+          "comments": [
+            { "id": "5", "author": "Rakib", "text": "Amazing!" },
+            { "id": "6", "author": "Shoeb", "text": "Incredible!" }
+          ]
+        },
+        {
+          "id": 4,
+          "title": "The Matrix",
+          "imageUrl": "https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
+          "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+          "comments": [
+            { "id": "7", "author": "Rakib", "text": "Brilliant!" },
+            { "id": "8", "author": "Shoeb", "text": "Wonderful!" }
+          ]
+        },
+        {
+          "id": 5,
+          "title": "Pulp Fiction",
+          "imageUrl": "https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg",
+          "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "comments": [
+            { "id": "9", "author": "Rakib", "text": "Superb!" },
+            { "id": "10", "author": "Dipankar", "text": "Excellent!" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "popular",
+      "title": "Popular on GoFlix",
+      "movies": [
+        {
+          "id": 6,
+          "title": "The Shawshank Redemption",
+          "imageUrl": "https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg",
+          "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+          "comments": [
+            { "id": "11", "author": "Rakib", "text": "Great movie!" },
+            { "id": "12", "author": "Shoeb", "text": "Loved it!" }
+          ]
+        },
+        {
+          "id": 7,
+          "title": "The Godfather",
+          "imageUrl": "https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg",
+          "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+          "comments": [
+            { "id": "13", "author": "Rakib", "text": "Awesome!" },
+            { "id": "14", "author": "Shoeb", "text": "Fantastic!" }
+          ]
+        },
+        {
+          "id": 8,
+          "title": "Fight Club",
+          "imageUrl": "https://m.media-amazon.com/images/M/MV5BNDIzNDU0YzEtYzE5Ni00ZjlkLTk5ZjgtNjM3NWE4YzA3Nzk3XkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_SX300.jpg",
+          "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+          "comments": [
+            { "id": "15", "author": "Rakib", "text": "Amazing!" },
+            { "id": "16", "author": "Shoeb", "text": "Incredible!" }
+          ]
+        },
+        {
+          "id": 9,
+          "title": "Goodfellas",
+          "imageUrl": "https://m.media-amazon.com/images/M/MV5BY2NkZjEzMDgtN2RjYy00YzM1LWI4ZmQtMjIwYjFjNmI3ZGEwXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg",
+          "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+          "comments": [
+            { "id": "17", "author": "Rakib", "text": "Brilliant!" },
+            { "id": "18", "author": "Shoeb", "text": "Wonderful!" }
+          ]
+        },
+        {
+          "id": 10,
+          "title": "The Silence of the Lambs",
+          "imageUrl": "https://m.media-amazon.com/images/M/MV5BNjNhZTk0ZmEtNjJhMi00YzFlLWE1MmEtYzM1M2ZmMGMwMTU4XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
+          "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4",
+          "comments": [
+            { "id": "19", "author": "Rakib", "text": "Superb!" },
+            { "id": "20", "author": "Shoeb", "text": "Excellent!" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mylist",
+      "title": "My List",
+      "movies": [
+        {
+          "id": 11,
+          "title": "Forrest Gump",
+          "imageUrl": "https://m.media-amazon.com/images/M/MV5BNWIwODRlZTUtY2U3ZS00Yzg1LWJhNzYtMmZiYmEyNmU1NjMzXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
+          "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+          "comments": [
+            { "id": "21", "author": "Rakib", "text": "Great movie!" },
+            { "id": "22", "author": "Shoeb", "text": "Loved it!" }
+          ]
+        },
+        {
+          "id": 12,
+          "title": "The Green Mile",
+          "imageUrl": "https://m.media-amazon.com/images/M/MV5BMTUxMzQyNjA5MF5BMl5BanBnXkFtZTYwOTU2NTY3._V1_SX300.jpg",
+          "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+          "comments": [
+            { "id": "23", "author": "Rakib", "text": "Awesome!" },
+            { "id": "24", "author": "Shoeb", "text": "Fantastic!" }
+          ]
+        },
+        {
+          "id": 13,
+          "title": "Saving Private Ryan",
+          "imageUrl": "https://m.media-amazon.com/images/M/MV5BZjhkMDM4MWItZTVjOC00ZDRhLThmYTAtM2I5NzBmNmNlMzI1XkEyXkFqcGdeQXVyNDYyMDk5MTU@._V1_SX300.jpg",
+          "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+          "comments": [
+            { "id": "25", "author": "Rakib", "text": "Amazing!" },
+            { "id": "26", "author": "Shoeb", "text": "Incredible!" }
+          ]
+        },
+        {
+          "id": 14,
+          "title": "Gladiator",
+          "imageUrl": "https://m.media-amazon.com/images/M/MV5BMDliMmNhNDEtODUyOS00MjNlLTgxODEtN2U3NzIxMGVkZTA1L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
+          "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+          "comments": [
+            { "id": "27", "author": "Rakib", "text": "Brilliant!" },
+            { "id": "28", "author": "Shoeb", "text": "Wonderful!" }
+          ]
+        },
+        {
+          "id": 15,
+          "title": "The Departed",
+          "imageUrl": "https://m.media-amazon.com/images/M/MV5BMTI1MTY2OTIxNV5BMl5BanBnXkFtZTYwNjQ4NjY3._V1_SX300.jpg",
+          "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "comments": [
+            { "id": "29", "author": "Rakib", "text": "Superb!" },
+            { "id": "30", "author": "Shoeb", "text": "Excellent!" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "new",
+      "title": "New Releases",
+      "movies": [
+        {
+          "id": 16,
+          "title": "The Prestige",
+          "imageUrl": "https://m.media-amazon.com/images/M/MV5BMjA4NDI0MTIxNF5BMl5BanBnXkFtZTYwNTM0MzY2._V1_SX300.jpg",
+          "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+          "comments": [
+            { "id": "31", "author": "Rakib", "text": "Great movie!" },
+            { "id": "32", "author": "Shoeb", "text": "Loved it!" }
+          ]
+        },
+        {
+          "id": 17,
+          "title": "Memento",
+          "imageUrl": "https://m.media-amazon.com/images/M/MV5BZTcyNjk1MjgtOWI3Mi00YzQwLWI5MTktMzY4ZmI2NDAyNzYzXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
+          "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+          "comments": [
+            { "id": "33", "author": "Rakib", "text": "Awesome!" },
+            { "id": "34", "author": "Shoeb", "text": "Fantastic!" }
+          ]
+        },
+        {
+          "id": 18,
+          "title": "The Usual Suspects",
+          "imageUrl": "https://m.media-amazon.com/images/M/MV5BYTViNjMyNmUtNDFkNC00ZDRlLThmMDUtZDU2YWE4NGI2ZjVmXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
+          "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+          "comments": [
+            { "id": "35", "author": "Rakib", "text": "Amazing!" },
+            { "id": "36", "author": "Shoeb", "text": "Incredible!" }
+          ]
+        },
+        {
+          "id": 19,
+          "title": "L.A. Confidential",
+          "imageUrl": "https://m.media-amazon.com/images/M/MV5BMDQ2YzEyZGItYWRhOS00MjBmLTkzMDUtMTdjYzkyMmQxZTJlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
+          "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+          "comments": [
+            { "id": "37", "author": "Rakib", "text": "Brilliant!" },
+            { "id": "38", "author": "Shoeb", "text": "Wonderful!" }
+          ]
+        },
+        {
+          "id": 20,
+          "title": "Heat",
+          "imageUrl": "https://m.media-amazon.com/images/M/MV5BNGMwNzUwNjYtZWM5NS00YzMyLWI4NjAtNjM0ZDBiMzE1YWExXkEyXkFqcGdeQXVyNDk3NzU2MTQ@._V1_SX300.jpg",
+          "videoUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4",
+          "comments": [
+            { "id": "39", "author": "Rakib", "text": "Superb!" },
+            { "id": "40", "author": "Shoeb", "text": "Excellent!" }
+          ]
+        }
+      ]
+    }
+  ]
+}
