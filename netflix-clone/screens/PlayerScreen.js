@@ -130,46 +130,49 @@ export default function PlayerScreen({ navigation, route }) {
     }
   }, [route.params?.videoUrl]);
 
-  // Load video on component mount
+  // Add cleanup for video player
   useEffect(() => {
-    const loadVideo = async () => {
-      if (!videoRef.current) {
-        setError('Video component not mounted properly.');
-        setIsLoading(false);
-        return;
-      }
-      try {
-        await videoRef.current.loadAsync(
-          {
-            uri:
-              route.params?.videoUrl ||
-              'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-          },
-          { shouldPlay: false, isLooping: true }
-        );
-        const status = await videoRef.current.getStatusAsync();
-        if (status.isLoaded) {
-          setDuration(status.durationMillis);
-          setPosition(status.positionMillis || 0);
-          setIsLoading(false);
-        } else {
-          setError('Failed to load video.');
-          setIsLoading(false);
-        }
-      } catch (error) {
-        setError(`Failed to load video: ${error.message}`);
-        console.error('Video loading error:', error);
-        setIsLoading(false);
-      }
-    };
-    loadVideo();
-
     return () => {
       if (videoRef.current) {
         videoRef.current.unloadAsync();
       }
-      // Unlock all orientations on component unmount
-      ScreenOrientation.unlockAsync();
+    };
+  }, []);
+
+  // Modify video loading
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadVideo = async () => {
+      if (!videoRef.current) return;
+      
+      try {
+        setIsLoading(true);
+        setError(null);
+        
+        await videoRef.current.unloadAsync(); // Unload any existing video
+        await videoRef.current.loadAsync(
+          { uri: route.params?.videoUrl },
+          { shouldPlay: true, isLooping: true },
+          false
+        );
+        
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.error('Video loading error:', error);
+        if (isMounted) {
+          setError('Error loading video');
+          setIsLoading(false);
+        }
+      }
+    };
+
+    loadVideo();
+
+    return () => {
+      isMounted = false;
     };
   }, [route.params?.videoUrl]);
 
@@ -202,28 +205,22 @@ export default function PlayerScreen({ navigation, route }) {
           <Video
             ref={videoRef}
             style={videoStyle}
-            source={{
-              uri:
-                route.params?.videoUrl ||
-                'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-            }}
-            useNativeControls={false} // Custom controls
+            source={{ uri: route.params?.videoUrl }}
+            useNativeControls={false}
             resizeMode={ResizeMode.CONTAIN}
             isLooping
-            onPlaybackStatusUpdate={(playbackStatus) => {
-              if (playbackStatus.isLoaded) {
-                setStatus(playbackStatus);
-                setPosition(playbackStatus.positionMillis || 0);
-                setDuration(playbackStatus.durationMillis || 0);
-              } else {
-                if (playbackStatus.error) {
-                  setError(`Video playback error: ${playbackStatus.error}`);
-                }
+            shouldPlay={true}
+            onPlaybackStatusUpdate={(status) => {
+              if (status.isLoaded) {
+                setStatus(status);
+                setPosition(status.positionMillis || 0);
+                setDuration(status.durationMillis || 0);
               }
             }}
             onError={(error) => {
               console.error('Video error event:', error);
               setError('Video playback error occurred');
+              setIsLoading(false);
             }}
             volume={volume}
           />
