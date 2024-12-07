@@ -4,15 +4,6 @@
 
 GoFlix is a sophisticated mobile streaming application built with React Native and Expo, offering a Netflix-like experience. The app features a robust video player, real-time comments, offline capabilities, and a responsive design that adapts to different screen sizes.
 
-## Screenshots
-
-![GoFlix Screenshot 1](./netflix-clone/assets/screenshots/1.png)
-![GoFlix Screenshot 2](./netflix-clone/assets/screenshots/2.png)
-![GoFlix Screenshot 3](./netflix-clone/assets/screenshots/3.png)
-![GoFlix Screenshot 4](./netflix-clone/assets/screenshots/4.png)
-![GoFlix Screenshot 5](./netflix-clone/assets/screenshots/5.png)
-
-
 ## Core Features
 
 ### Video Streaming
@@ -105,6 +96,16 @@ json
   - Results rendering
   - Navigation integration
 
+## Screenshots
+
+<div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 10px; justify-content: center">
+    <img src="./netflix-clone/assets/screenshots/1.png" width="150" alt="GoFlix Screenshot 1" />
+    <img src="./netflix-clone/assets/screenshots/2.png" width="150" alt="GoFlix Screenshot 2" />
+    <img src="./netflix-clone/assets/screenshots/3.png" width="150" alt="GoFlix Screenshot 3" />
+    <img src="./netflix-clone/assets/screenshots/4.png" width="150" alt="GoFlix Screenshot 4" />
+    <img src="./netflix-clone/assets/screenshots/5.png" width="150" alt="GoFlix Screenshot 5" />
+</div>
+
 ## Installation
 
 ### Prerequisites
@@ -117,7 +118,7 @@ json
 ### Setup Steps
 1. **Clone Repository**
    ```bash
-   git clone https://github.com/yourusername/netflix-clone.git
+   git clone https://github.com/NafisRayan/GoFlix-AndroidTV.git
    cd netflix-clone
    ```
 
