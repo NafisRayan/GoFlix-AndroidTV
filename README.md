@@ -56,7 +56,7 @@ GoFlix is a sophisticated mobile streaming application built with React Native a
   - Expo Screen Orientation for screen management
 
 ### Database Structure
-json
+```json
 {
   "categories": [
     {
@@ -96,15 +96,22 @@ json
   - Results rendering
   - Navigation integration
 
-## Screenshots
 
-<div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 10px; justify-content: center">
-    <img src="./netflix-clone/assets/screenshots/1.png" width="150" alt="GoFlix Screenshot 1" />
-    <img src="./netflix-clone/assets/screenshots/2.png" width="150" alt="GoFlix Screenshot 2" />
-    <img src="./netflix-clone/assets/screenshots/3.png" width="150" alt="GoFlix Screenshot 3" />
-    <img src="./netflix-clone/assets/screenshots/4.png" width="150" alt="GoFlix Screenshot 4" />
-    <img src="./netflix-clone/assets/screenshots/5.png" width="150" alt="GoFlix Screenshot 5" />
-</div>
+## Screenshots  
+
+Here are some screenshots of the **GoFlix** app showcasing its key features and design:  
+
+### Home Screen  
+<img src="./netflix-clone/assets/screenshots/1.png" alt="GoFlix Home Screen" width="250" />  
+
+<img src="./netflix-clone/assets/screenshots/2.png" alt="GoFlix Search Screen" width="250" />  
+
+<img src="./netflix-clone/assets/screenshots/3.png" alt="GoFlix Downloads Screen" width="250" />  
+
+<img src="./netflix-clone/assets/screenshots/4.png" alt="GoFlix Profile Screen" width="250" />  
+
+<img src="./netflix-clone/assets/screenshots/5.png" alt="GoFlix Player Screen" width="250" />  
+
 
 ## Installation
 
@@ -118,7 +125,7 @@ json
 ### Setup Steps
 1. **Clone Repository**
    ```bash
-   git clone https://github.com/NafisRayan/GoFlix-AndroidTV.git
+   git clone https://github.com/NafisRayan/GoFlix-AndroidTV
    cd netflix-clone
    ```
 
